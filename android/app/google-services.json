@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "510817042460",
+    "project_id": "e-pengaduan-22cc2",
+    "storage_bucket": "e-pengaduan-22cc2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510817042460:android:da2b19f0ddda60101e1fd9",
+        "android_client_info": {
+          "package_name": "com.example.pmobv2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAk_oxdHJev_0nLxnWPy590769aQvyeApI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
