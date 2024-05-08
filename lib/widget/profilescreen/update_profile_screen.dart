@@ -26,7 +26,7 @@ class _UpdateProfileScreenState extends ConsumerState<UpdateProfileScreen> {
   void _updateProfile() async {
     final _isValid = _form.currentState!.validate();
 
-    if (!_isValid || _selectedImage == null) {
+    if (!_isValid) {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         duration: const Duration(seconds: 2),
@@ -45,21 +45,25 @@ class _UpdateProfileScreenState extends ConsumerState<UpdateProfileScreen> {
     });
 
     final _userData = ref.watch(userProvider);
-
-    final storageRef = FirebaseStorage.instance
-        .ref()
-        .child('user_images')
-        .child("${_userData['id']}.jpg");
-    final metadata = SettableMetadata(
-      contentType: 'image/jpeg',
-      customMetadata: {'picked-file-path': _selectedImage!.path},
-    );
-    if (kIsWeb) {
-      await storageRef.putData(await _selectedImage!.readAsBytes(), metadata);
+    var _imageUrl;
+    if (_selectedImage != null) {
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('user_images')
+          .child("${_userData['id']}.jpg");
+      final metadata = SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'picked-file-path': _selectedImage!.path},
+      );
+      if (kIsWeb) {
+        await storageRef.putData(await _selectedImage!.readAsBytes(), metadata);
+      } else {
+        await storageRef.putFile(_selectedImage!, metadata);
+      }
+      _imageUrl = await storageRef.getDownloadURL();
     } else {
-      await storageRef.putFile(_selectedImage!, metadata);
+      _imageUrl = _userData['image_url'];
     }
-    final _imageUrl = await storageRef.getDownloadURL();
 
     await FirebaseFirestore.instance
         .collection('users')
