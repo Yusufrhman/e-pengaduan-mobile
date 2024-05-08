@@ -51,6 +51,7 @@ class ProfileScreen extends ConsumerWidget {
                         Text(
                           _userData['name']!,
                           style: Theme.of(context).textTheme.titleMedium,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(
                           height: 4,

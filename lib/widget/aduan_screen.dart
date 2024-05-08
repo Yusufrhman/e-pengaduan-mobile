@@ -10,7 +10,7 @@ class AduanScreen extends StatelessWidget {
   AduanScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
         const AduanHeader(),
         StreamBuilder(
@@ -38,13 +38,8 @@ class AduanScreen extends StatelessWidget {
               }
 
               final pengaduanList = snapshot.data!.docs;
-              return ListView.builder(
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  return AduanAccordion(
-                    pengaduanList: pengaduanList,
-                  );
-                },
+              return AduanAccordion(
+                pengaduanList: pengaduanList,
               );
             }),
       ],

@@ -48,6 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
         _isLoading = false;
       });
     } on FirebaseAuthException catch (error) {
+      print(error);
       setState(() {
         _isLoading = false;
       });
