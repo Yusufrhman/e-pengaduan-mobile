@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:accordion/accordion.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pmobv2/main.dart';
-import 'package:pmobv2/models/pengaduan.dart';
 import 'package:pmobv2/providers/user_provider.dart';
 
 class AduanAccordion extends ConsumerWidget {
@@ -38,7 +37,7 @@ class AduanAccordion extends ConsumerWidget {
             );
           }
 
-          final pengaduanList = snapshot.data!.docs;
+          final pengaduanList = snapshot.data!.docs.reversed;
           return Accordion(
             disableScrolling: true,
             headerBackgroundColor: kColorScheme.secondaryContainer,

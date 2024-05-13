@@ -12,15 +12,16 @@ import 'package:uuid/uuid.dart';
 var uuid = const Uuid();
 
 class FormScreen extends StatefulWidget {
-  const FormScreen({required this.selectedCategory, super.key});
+  const FormScreen(
+      {required this.selectedCategory, this.selectedImage, super.key});
   final Category selectedCategory;
-
+  final File? selectedImage;
   @override
   State<FormScreen> createState() => _FormScreenState();
 }
 
 class _FormScreenState extends State<FormScreen> {
-  File? _selectedImage;
+  File? selectedImage;
   bool _isNoImage = false;
   Category _selectedCategory = Category.keamanan;
   final _formKey = GlobalKey<FormState>();
@@ -40,7 +41,7 @@ class _FormScreenState extends State<FormScreen> {
     if (!isValid) {
       return;
     }
-    if (_selectedImage == null) {
+    if (selectedImage == null) {
       setState(() {
         _isNoImage = true;
       });
@@ -59,7 +60,7 @@ class _FormScreenState extends State<FormScreen> {
           .ref()
           .child('pengaduan_images')
           .child("${pengaduanId}.jpg");
-      await storageRef.putFile(_selectedImage!);
+      await storageRef.putFile(selectedImage!);
       final _imageUrl = await storageRef.getDownloadURL();
       await FirebaseFirestore.instance
           .collection('pengaduan')
@@ -290,7 +291,7 @@ class _FormScreenState extends State<FormScreen> {
                                 ),
                                 child: PengaduanImagePicker(
                                   onSelectImage: (image) {
-                                    _selectedImage = image;
+                                    selectedImage = image;
                                   },
                                   isError: _isNoImage,
                                 ),
