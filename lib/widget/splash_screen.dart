@@ -4,7 +4,8 @@ import 'package:lottie/lottie.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pmobv2/main.dart';
-import 'package:pmobv2/widget/auth_screen.dart';
+import 'package:pmobv2/widget/auth/auth_screen.dart';
+import 'package:pmobv2/widget/auth/login_checker.dart';
 import 'package:pmobv2/widget/epengaduan.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -32,16 +33,7 @@ class SplashScreen extends StatelessWidget {
       splashTransition: SplashTransition.sizeTransition,
       pageTransitionType: PageTransitionType.bottomToTop,
       splashIconSize: 270,
-      nextScreen: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return const EPengaduan();
-          } else {
-            return const AuthScreen();
-          }
-        },
-      ),
+      nextScreen: const LoginChecker(),
       backgroundColor: kColorScheme.primary,
       duration: 1100,
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pmobv2/main.dart';
-import 'package:pmobv2/widget/authscreen/login.dart';
-import 'package:pmobv2/widget/authscreen/signup.dart';
+import 'package:pmobv2/widget/auth/login.dart';
+import 'package:pmobv2/widget/auth/signup.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});

@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pmobv2/main.dart';
 
-class PengaduanImagePicker extends StatefulWidget {
-  const PengaduanImagePicker(
+class BeritaImagePicker extends StatefulWidget {
+  BeritaImagePicker(
       {super.key, required this.onSelectImage, required this.isError});
   final void Function(File image) onSelectImage;
   final bool isError;
 
   @override
-  State<PengaduanImagePicker> createState() => _PengaduanImagePickerState();
+  State<BeritaImagePicker> createState() => _BeritaImagePickerState();
 }
 
-class _PengaduanImagePickerState extends State<PengaduanImagePicker> {
+class _BeritaImagePickerState extends State<BeritaImagePicker> {
   File? _selectedImage;
   void _pickImage() async {
     final imagePicker = ImagePicker();
@@ -31,25 +31,33 @@ class _PengaduanImagePickerState extends State<PengaduanImagePicker> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _content = Container(
-        color: widget.isError
-            ? const Color.fromARGB(255, 255, 158, 151)
-            : Colors.transparent,
-        child: Row(
-          children: [
-            Icon(
-              Icons.photo,
-              size: 32,
-              color: kColorScheme.primary,
-            ),
-            const Text("Pilih Gambar")
-          ],
-        ));
+    Widget _content = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.photo,
+          size: 32,
+          color: kColorScheme.primary,
+        ),
+        const Text("Pilih Gambar")
+      ],
+    );
 
     if (_selectedImage != null) {
       _content = Image.file(_selectedImage!);
     }
 
-    return GestureDetector(onTap: _pickImage, child: _content);
+    return Ink(
+      color: widget.isError
+          ? const Color.fromARGB(255, 255, 158, 151)
+          : kColorScheme.secondaryContainer,
+      child: InkWell(
+        onTap: _pickImage,
+        child: SizedBox(
+            height: 200,
+            width: MediaQuery.of(context).size.width,
+            child: _content),
+      ),
+    );
   }
 }

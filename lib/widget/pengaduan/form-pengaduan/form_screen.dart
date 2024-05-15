@@ -6,16 +6,16 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:pmobv2/main.dart';
 import 'package:pmobv2/models/pengaduan.dart';
-import 'package:pmobv2/widget/form-pengaduan/pengaduan_image_picker.dart';
+import 'package:pmobv2/widget/pengaduan/form-pengaduan/pengaduan_image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 var uuid = const Uuid();
 
 class FormScreen extends StatefulWidget {
-  const FormScreen(
-      {required this.selectedCategory, this.selectedImage, super.key});
-  final Category selectedCategory;
-  final File? selectedImage;
+  const FormScreen({this.selectedCategory, this.pengaduan, super.key});
+  final Category? selectedCategory;
+  final Pengaduan? pengaduan;
+
   @override
   State<FormScreen> createState() => _FormScreenState();
 }
@@ -26,10 +26,12 @@ class _FormScreenState extends State<FormScreen> {
   Category _selectedCategory = Category.keamanan;
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
+  bool? _isUpdating;
   @override
   void initState() {
     super.initState();
-    _selectedCategory = widget.selectedCategory;
+    _isUpdating = widget.pengaduan != null;
+    _selectedCategory = widget.selectedCategory ?? widget.pengaduan!.category;
   }
 
   String _title = '';
@@ -54,7 +56,7 @@ class _FormScreenState extends State<FormScreen> {
       _isLoading = true;
     });
     final pengaduanId = uuid.v4();
-    var _currentDate = DateTime.now();
+    var _currentDate = DateTime.now().toString();
     try {
       final storageRef = FirebaseStorage.instance
           .ref()
@@ -73,22 +75,67 @@ class _FormScreenState extends State<FormScreen> {
           'location': _location,
           'image_url': _imageUrl,
           'category': _selectedCategory.name,
-          'date_added': _currentDate
+          'date_added': _currentDate,
+          'status': Status.terkirim.name
         },
       );
+
+      setState(() {
+        _isLoading = false;
+      });
+      if (!mounted) {
+        return;
+      }
+      Navigator.pop(context);
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("failed")),
+      );
+      print(e);
+    }
+  }
+
+  void _updatePengaduan() async {
+    final isValid = _formKey.currentState!.validate();
+    if (!isValid) {
+      return;
+    }
+    var _imageUrl;
+
+    _formKey.currentState!.save();
+
+    final currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    setState(
+      () {
+        _isLoading = true;
+      },
+    );
+    try {
+      if (selectedImage == null) {
+        _imageUrl = widget.pengaduan!.image;
+      } else {
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('pengaduan_images')
+            .child("${widget.pengaduan!.id}.jpg");
+        await storageRef.putFile(selectedImage!);
+        _imageUrl = await storageRef.getDownloadURL();
+      }
       await FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUserId)
           .collection('pengaduan')
-          .doc(pengaduanId)
-          .set(
+          .doc(widget.pengaduan!.id)
+          .update(
         {
+          'userId': currentUserId,
           'title': _title,
           'description': _description,
           'location': _location,
           'image_url': _imageUrl,
           'category': _selectedCategory.name,
-          'date_added': _currentDate
         },
       );
       setState(() {
@@ -112,7 +159,6 @@ class _FormScreenState extends State<FormScreen> {
 
   @override
   Widget build(context) {
-    print(Category.keamanan.name);
     return Padding(
       padding: const EdgeInsets.only(top: 32, left: 16, right: 16, bottom: 16),
       child: _isLoading
@@ -121,8 +167,11 @@ class _FormScreenState extends State<FormScreen> {
             )
           : Column(
               children: [
-                Text("Ajukan Pengaduan",
-                    style: Theme.of(context).textTheme.titleLarge),
+                _isUpdating!
+                    ? Text("Edit Pengaduan",
+                        style: Theme.of(context).textTheme.titleLarge)
+                    : Text("Ajukan Pengaduan",
+                        style: Theme.of(context).textTheme.titleLarge),
                 const SizedBox(
                   height: 18,
                 ),
@@ -141,6 +190,7 @@ class _FormScreenState extends State<FormScreen> {
                                 color: kColorScheme.onPrimaryContainer),
                           ),
                           TextFormField(
+                            initialValue: widget.pengaduan?.title ?? '',
                             validator: (value) {
                               if (value == null || value.trim() == '') {
                                 return 'judul tidak boleh kosong';
@@ -172,6 +222,7 @@ class _FormScreenState extends State<FormScreen> {
                                 color: kColorScheme.onPrimaryContainer),
                           ),
                           TextFormField(
+                            initialValue: widget.pengaduan?.description ?? '',
                             validator: (value) {
                               if (value == null || value.trim() == '') {
                                 return 'deskripsi tidak boleh kosong';
@@ -204,6 +255,7 @@ class _FormScreenState extends State<FormScreen> {
                                 color: kColorScheme.onPrimaryContainer),
                           ),
                           TextFormField(
+                            initialValue: widget.pengaduan?.location ?? '',
                             validator: (value) {
                               if (value == null || value.trim() == '') {
                                 return 'lokasi tidak boleh kosong';
@@ -289,12 +341,21 @@ class _FormScreenState extends State<FormScreen> {
                                 decoration: BoxDecoration(
                                   color: kColorScheme.secondaryContainer,
                                 ),
-                                child: PengaduanImagePicker(
-                                  onSelectImage: (image) {
-                                    selectedImage = image;
-                                  },
-                                  isError: _isNoImage,
-                                ),
+                                child: widget.pengaduan == null
+                                    ? PengaduanImagePicker(
+                                        onSelectImage: (image) {
+                                          selectedImage = image;
+                                        },
+                                        isError: _isNoImage,
+                                      )
+                                    : PengaduanImagePicker(
+                                        currentImage:
+                                            File(widget.pengaduan!.image),
+                                        onSelectImage: (image) {
+                                          selectedImage = image;
+                                        },
+                                        isError: _isNoImage,
+                                      ),
                               ),
                             ],
                           ),
@@ -320,7 +381,8 @@ class _FormScreenState extends State<FormScreen> {
                           color: kColorScheme.primaryContainer,
                           borderRadius: BorderRadius.circular(100)),
                       child: TextButton(
-                        onPressed: _savePengaduan,
+                        onPressed:
+                            _isUpdating! ? _updatePengaduan : _savePengaduan,
                         child: const Text("Ajukan Laporan"),
                       ),
                     ),

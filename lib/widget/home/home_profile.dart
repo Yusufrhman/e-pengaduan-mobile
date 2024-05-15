@@ -5,8 +5,7 @@ import 'package:pmobv2/providers/user_provider.dart';
 import 'package:pmobv2/widget/button/notif_button.dart';
 
 class HomeProfile extends ConsumerWidget {
-  const HomeProfile({super.key, required this.name});
-  final String name;
+  const HomeProfile({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _userData = ref.watch(userProvider);
@@ -30,7 +29,7 @@ class HomeProfile extends ConsumerWidget {
                       : Image.network(
                           width: 50,
                           height: 50,
-                          _userData['image_url']!,
+                          _userData['image_url']! as String,
                           fit: BoxFit.cover),
             ),
           ),

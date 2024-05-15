@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pmobv2/main.dart';
-import 'package:pmobv2/widget/authscreen/login.dart';
+import 'package:pmobv2/widget/auth/login.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -58,6 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           'phone': '',
           'address': '',
           'image_url': '',
+          'isAdmin': false
         },
       );
       Navigator.pop(context);

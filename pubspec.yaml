@@ -50,6 +50,9 @@ dependencies:
   firebase_storage: ^11.6.9
   image_picker: ^1.0.7
   uuid: ^4.4.0
+  iconsax: ^0.0.8
+  google_nav_bar: ^5.0.6
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pmobv2/main.dart';
-import 'package:pmobv2/widget/authscreen/signup.dart';
+import 'package:pmobv2/widget/auth/login_checker.dart';
+import 'package:pmobv2/widget/auth/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final _firebase = FirebaseAuth.instance;
@@ -43,7 +44,11 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final userCredentials = await _firebase.signInWithEmailAndPassword(
           email: _enteredEmail, password: _enteredPassword);
-      Navigator.pop(context);
+      if (!mounted) {
+        return;
+      }
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const LoginChecker()));
       setState(() {
         _isLoading = false;
       });

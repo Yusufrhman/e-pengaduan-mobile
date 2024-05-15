@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/elusive_icons.dart';
 import 'package:pmobv2/main.dart';
-import 'package:pmobv2/widget/homescreen/fitur_button.dart';
-import 'package:pmobv2/widget/homescreen/home_carousell.dart';
-import 'package:pmobv2/widget/homescreen/home_fitur.dart';
-import 'package:pmobv2/widget/homescreen/home_profile.dart';
+import 'package:pmobv2/widget/home/fitur_button.dart';
+import 'package:pmobv2/widget/home/home_carousell.dart';
+import 'package:pmobv2/widget/home/home_fitur.dart';
+import 'package:pmobv2/widget/home/home_profile.dart';
 import 'package:pmobv2/models/pengaduan.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,7 +18,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<FiturButton> fiturPengaduan = [];
   List<FiturButton> fiturLainnya = [];
-  String? name;
 
   @override
   void initState() {
@@ -97,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(context) {
     return ListView(
       children: [
-        const HomeProfile(name: ""),
+        const HomeProfile(),
         const HomeCarousell(),
         HomeFitur(
           title: "PENGADUAN",

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pmobv2/models/pengaduan.dart';
-import 'package:pmobv2/widget/homescreen/fitur_button.dart';
+import 'package:pmobv2/widget/home/fitur_button.dart';
 
 class HomeFitur extends StatelessWidget {
   const HomeFitur({required this.title, required this.fiturs, required this.onTapFitur, super.key});

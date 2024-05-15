@@ -23,7 +23,7 @@ class OneBeritaScreen extends StatelessWidget {
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(48),
                 ),
-                child: Image.asset(
+                child: Image.network(
                   berita.image,
                   fit: BoxFit.cover,
                 ),
@@ -36,7 +36,9 @@ class OneBeritaScreen extends StatelessWidget {
                 children: [
                   Text(
                     berita.title,
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: kColorScheme.primary,
+                        fontWeight: FontWeight.bold),
                     textAlign: TextAlign.start,
                   ),
                   const SizedBox(
@@ -44,7 +46,21 @@ class OneBeritaScreen extends StatelessWidget {
                   ),
                   Text(
                     berita.description,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: kColorScheme.primary),
+                    textAlign: TextAlign.justify,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    berita.formattedDate,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.black45),
                     textAlign: TextAlign.justify,
                   )
                 ],

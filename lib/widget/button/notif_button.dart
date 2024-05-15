@@ -12,18 +12,21 @@ class NotifButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
         color: kColorScheme.secondaryContainer,
       ),
-      child: IconButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const NotifScreen(),
-            ),
-          );
-        },
-        icon: Icon(
-          Icons.notifications_outlined,
-          size: 32,
-          color: kColorScheme.primary,
+      child: Badge(
+        label: Text('99'),
+        child: IconButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const NotifScreen(),
+              ),
+            );
+          },
+          icon: Icon(
+            Icons.notifications_outlined,
+            size: 32,
+            color: kColorScheme.primary,
+          ),
         ),
       ),
     );

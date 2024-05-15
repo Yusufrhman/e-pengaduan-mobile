@@ -154,13 +154,15 @@ class ProfileScreen extends ConsumerWidget {
                 icon: Icons.password,
                 onPress: () {},
               ),
-              ProfileButton(
-                title: "Notification",
-                icon: Icons.notifications,
-                onPress: () {},
-              ),
+              _userData['isAdmin']
+                  ? const SizedBox()
+                  : ProfileButton(
+                      title: "Notification",
+                      icon: Icons.notifications,
+                      onPress: () {},
+                    ),
               const SizedBox(
-                height: 24,
+                height: 48,
               ),
               ProfileButton(
                 title: "Logout",

@@ -85,6 +85,9 @@ class _UpdateProfileScreenState extends ConsumerState<UpdateProfileScreen> {
     setState(() {
       _isLoading = false;
     });
+    if (!mounted) {
+      return;
+    }
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       duration: const Duration(seconds: 2),
