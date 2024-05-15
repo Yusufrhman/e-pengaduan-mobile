@@ -41,6 +41,9 @@ class _BeritaScreenState extends State<BeritaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
     return ListView.builder(
       itemCount: querySnapshot!.docs.length + 2,
       itemBuilder: (context, index) {
