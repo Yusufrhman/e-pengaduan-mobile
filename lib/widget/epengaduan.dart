@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:pmobv2/main.dart';
 import 'package:pmobv2/models/pengaduan.dart';
 import 'package:pmobv2/models/pengguna.dart';
@@ -11,7 +9,7 @@ import 'package:pmobv2/widget/pengaduan/aduan_screen.dart';
 import 'package:pmobv2/widget/berita/berita_screen.dart';
 import 'package:pmobv2/widget/pengaduan/form-pengaduan/form_screen.dart';
 import 'package:pmobv2/widget/home/home_screen.dart';
-import 'package:pmobv2/widget/profile_screen.dart';
+import 'package:pmobv2/widget/profile/profile_screen.dart';
 
 class EPengaduan extends ConsumerStatefulWidget {
   const EPengaduan({super.key, required this.user});

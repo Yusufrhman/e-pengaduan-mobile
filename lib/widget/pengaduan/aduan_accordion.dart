@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:accordion/controllers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,11 +35,11 @@ class _AduanAccordionState extends ConsumerState<AduanAccordion> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Delete This Item?',
+          'Hapus pengaduan?',
           style: Theme.of(context).textTheme.titleLarge,
         ),
         content: Text(
-          'Are you sure you want to delete this item "${pengaduan.title}"?',
+          'Anda tidak dapat membatalkan tindakan ini, yakin hapus "${pengaduan.title}"?',
           style: Theme.of(context).textTheme.bodyMedium,
         ),
         actions: [
@@ -50,7 +52,7 @@ class _AduanAccordionState extends ConsumerState<AduanAccordion> {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text("cancel"),
+            child: const Text("batal"),
           ),
           Ink(
             child: TextButton(
@@ -65,7 +67,7 @@ class _AduanAccordionState extends ConsumerState<AduanAccordion> {
               onPressed: () {
                 _deletePengaduan(pengaduan);
               },
-              child: const Text("delete"),
+              child: const Text("hapus"),
             ),
           ),
         ],
@@ -93,7 +95,54 @@ class _AduanAccordionState extends ConsumerState<AduanAccordion> {
     }
   }
 
-  void _changeStatus(Pengaduan pengaduan, Status status, String userId) async {
+  void _showConfirmDecline(Pengaduan pengaduan, String reporterId) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Tolak pengaduan?',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        content: Text(
+          'Anda tidak dapat membatalkan tindakan ini, yakin tolak "${pengaduan.title}"?',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        actions: [
+          TextButton(
+            style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all(
+                  kColorScheme.error,
+                ),
+                padding: MaterialStateProperty.all(EdgeInsets.all(0))),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("batal"),
+          ),
+          Ink(
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    kColorScheme.error,
+                  ),
+                  foregroundColor: MaterialStateProperty.all(
+                    kColorScheme.background,
+                  ),
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0))),
+              onPressed: () {
+                _changeStatus(pengaduan, Status.ditolak, reporterId);
+                Navigator.pop(context);
+              },
+              child: const Text("tolak"),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _changeStatus(
+      Pengaduan pengaduan, Status status, String reporterId) async {
     try {
       await FirebaseFirestore.instance
           .collection('pengaduan')
@@ -101,13 +150,20 @@ class _AduanAccordionState extends ConsumerState<AduanAccordion> {
           .update({'status': status.name});
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(userId)
+          .doc(reporterId)
           .collection('notification')
           .add({
         'title': pengaduan.title,
-        'content': 'Aduan anda telah $status',
+        'content': 'Aduan anda telah ${status.name}',
         'image_url': pengaduan.image,
         'date_added': DateTime.now().toString()
+      });
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(reporterId)
+          .update({
+        'unread_notif': FieldValue.arrayUnion([uuid.v1()])
       });
     } on FirebaseException catch (e) {
       if (!mounted) {
@@ -264,9 +320,22 @@ class _AduanAccordionState extends ConsumerState<AduanAccordion> {
                                     children: [
                                       TextButton.icon(
                                         onPressed: () {
-                                          _changeStatus(
-                                              pengaduan.id,
-                                              Status.ditolak,
+                                          _showConfirmDecline(
+                                              Pengaduan(
+                                                id: pengaduan.id,
+                                                title: pengaduan['title'],
+                                                description:
+                                                    pengaduan['description'],
+                                                category: getCategoryFromString(
+                                                    pengaduan['category']),
+                                                image: pengaduan['image_url'],
+                                                status: getStatusFromString(
+                                                    pengaduan['status']),
+                                                location: pengaduan['location'],
+                                                date: DateTime.parse(
+                                                  pengaduan['date_added'],
+                                                ),
+                                              ),
                                               pengaduan['userId']);
                                         },
                                         icon: Icon(
@@ -286,7 +355,22 @@ class _AduanAccordionState extends ConsumerState<AduanAccordion> {
                                       TextButton.icon(
                                         onPressed: () {
                                           _changeStatus(
-                                              pengaduan.id,
+                                              Pengaduan(
+                                                  id: pengaduan.id,
+                                                  title: pengaduan['title'],
+                                                  description:
+                                                      pengaduan['description'],
+                                                  category:
+                                                      getCategoryFromString(
+                                                          pengaduan[
+                                                              'category']),
+                                                  image: pengaduan['image_url'],
+                                                  status: getStatusFromString(
+                                                      pengaduan['status']),
+                                                  location:
+                                                      pengaduan['location'],
+                                                  date: DateTime.parse(
+                                                      pengaduan['date_added'])),
                                               Status.selesai,
                                               pengaduan['userId']);
                                         },
@@ -307,7 +391,7 @@ class _AduanAccordionState extends ConsumerState<AduanAccordion> {
                                       ),
                                     ],
                                   )
-                                : SizedBox()
+                                : const SizedBox()
                             : const SizedBox()
                         : isAdmin
                             ? Row(
@@ -316,8 +400,23 @@ class _AduanAccordionState extends ConsumerState<AduanAccordion> {
                                 children: [
                                   TextButton.icon(
                                     onPressed: () {
-                                      _changeStatus(pengaduan.id,
-                                          Status.ditolak, pengaduan['userId']);
+                                      _showConfirmDecline(
+                                          Pengaduan(
+                                            id: pengaduan.id,
+                                            title: pengaduan['title'],
+                                            description:
+                                                pengaduan['description'],
+                                            category: getCategoryFromString(
+                                                pengaduan['category']),
+                                            image: pengaduan['image_url'],
+                                            status: getStatusFromString(
+                                                pengaduan['status']),
+                                            location: pengaduan['location'],
+                                            date: DateTime.parse(
+                                              pengaduan['date_added'],
+                                            ),
+                                          ),
+                                          pengaduan['userId']);
                                     },
                                     icon: Icon(
                                       Icons.cancel,

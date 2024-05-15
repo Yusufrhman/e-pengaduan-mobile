@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
@@ -6,7 +5,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pmobv2/main.dart';
 import 'package:pmobv2/widget/auth/auth_screen.dart';
 import 'package:pmobv2/widget/auth/login_checker.dart';
-import 'package:pmobv2/widget/epengaduan.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

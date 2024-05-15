@@ -1,20 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:pmobv2/main.dart';
-import 'package:pmobv2/models/pengaduan.dart';
 import 'package:pmobv2/models/pengguna.dart';
 import 'package:pmobv2/providers/user_provider.dart';
 import 'package:pmobv2/widget/pengaduan/aduan_screen.dart';
 import 'package:pmobv2/widget/berita/berita_screen.dart';
 import 'package:pmobv2/widget/berita/form_berita/form_berita.dart';
-import 'package:pmobv2/widget/pengaduan/form-pengaduan/form_screen.dart';
-import 'package:pmobv2/widget/home/home_screen.dart';
-import 'package:pmobv2/widget/profile_screen.dart';
+import 'package:pmobv2/widget/profile/profile_screen.dart';
 
 class AdminMenu extends ConsumerStatefulWidget {
   const AdminMenu({super.key, required this.user});

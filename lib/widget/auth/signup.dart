@@ -58,7 +58,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           'phone': '',
           'address': '',
           'image_url': '',
-          'isAdmin': false
+          'isAdmin': false,
+          "unread_notif": []
         },
       );
       Navigator.pop(context);
@@ -69,6 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
         _isLoading = false;
       });
+      print(error);
       if (mounted) {
         showDialog(
           context: context,

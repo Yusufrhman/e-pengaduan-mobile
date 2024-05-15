@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pmobv2/main.dart';
 import 'package:pmobv2/providers/user_provider.dart';
-import 'package:pmobv2/widget/profilescreen/profile_image_picker.dart';
+import 'package:pmobv2/widget/profile/profile_image_picker.dart';
 
 class UpdateProfileScreen extends ConsumerStatefulWidget {
   const UpdateProfileScreen({super.key});

@@ -72,24 +72,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     ];
-    fiturLainnya = [
-      FiturButton(
-        category: Category.infrastruktur,
-        icon: Icon(
-          Icons.money_rounded,
-          size: 32,
-          color: kColorScheme.primary,
-        ),
-        label: Text(
-          "Tukar Poin",
-          style: TextStyle(
-            fontSize: 12,
-            color: kColorScheme.primary,
-          ),
-        ),
-        onTapFitur: widget.onTapFitur,
-      ),
-    ];
   }
 
   @override
@@ -103,11 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
           fiturs: fiturPengaduan,
           onTapFitur: widget.onTapFitur,
         ),
-        HomeFitur(
-          title: "LAINNYA",
-          fiturs: fiturLainnya,
-          onTapFitur: widget.onTapFitur,
-        )
       ],
     );
   }

@@ -22,8 +22,6 @@ class _FormBeritaScreenState extends State<FormBeritaScreen> {
   bool _isNoImage = false;
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
-  bool? _isUpdating;
-  @override
   String _title = '';
   String _description = '';
 
@@ -71,6 +69,7 @@ class _FormBeritaScreenState extends State<FormBeritaScreen> {
       setState(() {
         _isLoading = false;
       });
+      print(e);
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("failed")),

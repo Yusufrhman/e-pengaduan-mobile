@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final userCredentials = await _firebase.signInWithEmailAndPassword(
+      await _firebase.signInWithEmailAndPassword(
           email: _enteredEmail, password: _enteredPassword);
       if (!mounted) {
         return;
