@@ -17,79 +17,70 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kColorScheme.primary,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 2,
+            width: MediaQuery.of(context).size.width,
+            child: Image.asset(
+              'assets/images/auth_background3.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "E-Pengaduan",
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    fontSize: 42,
-                    color: kColorScheme.background,
-                    fontWeight: FontWeight.bold),
-              ),
-              Text(
-                "Adukan Keluhanmu disini!",
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 16,
-                      color: kColorScheme.primaryContainer,
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 50),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _openAddAuthOverlay(context, const LoginScreen());
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: kColorScheme.primaryContainer,
+                        foregroundColor: kColorScheme.primary,
+                        fixedSize: Size(MediaQuery.of(context).size.width, 50),
+                      ),
+                      child: Text(
+                        "Masuk",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: kColorScheme.primary,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900),
+                      ),
                     ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 5,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      _openAddAuthOverlay(context, const LoginScreen());
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: kColorScheme.primaryContainer,
-                      foregroundColor:
-                          kColorScheme.primary, // Warna teks button
-                    ).copyWith(
-                        fixedSize: MaterialStateProperty.all(
-                            Size.fromWidth(MediaQuery.of(context).size.width))),
-                    child: Text(
-                      "Masuk",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: kColorScheme.primary, fontSize: 16),
+                    const SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      _openAddAuthOverlay(context, const SignUpScreen());
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: kColorScheme.primaryContainer,
-                      foregroundColor: kColorScheme.primary,
-                    ).copyWith(
-                        fixedSize: MaterialStateProperty.all(
-                            Size.fromWidth(MediaQuery.of(context).size.width))),
-                    child: Text(
-                      "Daftar",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: kColorScheme.primary, fontSize: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        _openAddAuthOverlay(context, const SignUpScreen());
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            kColorScheme.primaryContainer.withOpacity(0.3),
+                        foregroundColor: kColorScheme.background,
+                        fixedSize: Size(MediaQuery.of(context).size.width, 50),
+                      ),
+                      child: Text(
+                        "Daftar",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: kColorScheme.background,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           ),
-        ),
+        ],
       ),
     );
   }

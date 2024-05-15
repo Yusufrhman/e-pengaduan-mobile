@@ -41,14 +41,6 @@ class _BeritaScreenState extends State<BeritaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return Center(child: CircularProgressIndicator());
-    }
-
-    if (querySnapshot == null || querySnapshot!.docs.isEmpty) {
-      return const Center(child: Text('No data available'));
-    }
-
     return ListView.builder(
       itemCount: querySnapshot!.docs.length + 2,
       itemBuilder: (context, index) {
@@ -83,6 +75,13 @@ class _BeritaScreenState extends State<BeritaScreen> {
             ),
           );
         } else {
+          if (isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (querySnapshot == null || querySnapshot!.docs.isEmpty) {
+            return const Center(child: Text('No data available'));
+          }
           final beritaIndex = index - 2;
           _beritaList = querySnapshot!.docs.toList();
           _beritaList
@@ -90,10 +89,13 @@ class _BeritaScreenState extends State<BeritaScreen> {
           final berita = _beritaList[beritaIndex];
           return BeritaCard(
             berita: Berita(
-                title: berita['title'],
-                description: berita['description'],
-                image: berita['image_url'],
-                date: DateTime.parse(berita['date_added'],),),
+              title: berita['title'],
+              description: berita['description'],
+              image: berita['image_url'],
+              date: DateTime.parse(
+                berita['date_added'],
+              ),
+            ),
           );
         }
       },

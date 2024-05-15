@@ -62,6 +62,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           "unread_notif": []
         },
       );
+      if (!mounted) {
+        return;
+      }
       Navigator.pop(context);
       setState(() {
         _isLoading = false;
