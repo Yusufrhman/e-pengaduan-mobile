@@ -11,11 +11,11 @@ class BeritaCard extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     if (screenWidth < 400) {
-      return 14.0;
+      return 12.0;
     } else if (screenWidth >= 400 && screenWidth < 600) {
-      return 16.0;
+      return 14.0;
     } else {
-      return 18.0;
+      return 16.0;
     }
   }
 
@@ -42,12 +42,17 @@ class BeritaCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  berita.title,
-                  style: TextStyle(
+                RichText(
+                  text: TextSpan(
+                    text: berita.title,
+                    style: TextStyle(
                       fontSize: _getFontSize(context),
                       fontWeight: FontWeight.bold,
-                      color: kColorScheme.primary),
+                      color: kColorScheme.primary,
+                    ),
+                  ),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(
                   height: 8,

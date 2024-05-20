@@ -20,7 +20,7 @@ class _HomeCarousellState extends State<HomeCarousell> {
     try {
       querySnapshot = await FirebaseFirestore.instance
           .collection('berita')
-          .orderBy('date_added', descending: false)
+          .orderBy('date_added', descending: true)
           .limit(4)
           .get();
       _beritaList = querySnapshot!.docs.toList();
@@ -90,7 +90,7 @@ class _HomeCarousellState extends State<HomeCarousell> {
                                     item['title'],
                                     style: const TextStyle(
                                       color: Colors.white,
-                                      fontSize: 15,
+                                      fontSize: 13,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
