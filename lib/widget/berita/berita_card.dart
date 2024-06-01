@@ -11,11 +11,11 @@ class BeritaCard extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     if (screenWidth < 400) {
-      return 12.0;
-    } else if (screenWidth >= 400 && screenWidth < 600) {
       return 14.0;
-    } else {
+    } else if (screenWidth >= 400 && screenWidth < 600) {
       return 16.0;
+    } else {
+      return 18.0;
     }
   }
 
@@ -44,13 +44,12 @@ class BeritaCard extends StatelessWidget {
               children: [
                 RichText(
                   text: TextSpan(
-                    text: berita.title,
-                    style: TextStyle(
-                      fontSize: _getFontSize(context),
-                      fontWeight: FontWeight.bold,
-                      color: kColorScheme.primary,
-                    ),
-                  ),
+                      text: berita.title,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: _getFontSize(context),
+                            fontWeight: FontWeight.bold,
+                            color: kColorScheme.primary,
+                          )),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -88,14 +87,14 @@ class BeritaCard extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
-                                    .copyWith(color: kColorScheme.primary),
+                                    .copyWith(color: kColorScheme.primary, fontSize: 13),
                               ),
                               const SizedBox(
                                 width: 5,
                               ),
                               Icon(
                                 Icons.arrow_forward,
-                                size: 18,
+                                size: 13,
                                 color: kColorScheme.primary,
                               ),
                             ],

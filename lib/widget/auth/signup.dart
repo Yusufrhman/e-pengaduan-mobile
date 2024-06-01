@@ -163,7 +163,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       TextFormField(
-                        style: TextStyle(color: kColorScheme.primary),
+                        style:
+                            TextStyle(color: kColorScheme.primary, height: 2),
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           filled: true,
@@ -190,7 +191,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       TextFormField(
-                        style: TextStyle(color: kColorScheme.primary),
+                        style:
+                            TextStyle(color: kColorScheme.primary, height: 2),
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           border: InputBorder.none,
@@ -226,7 +228,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       TextFormField(
                         obscureText: !_showPassword,
-                        style: TextStyle(color: kColorScheme.primary),
+                        style:
+                            TextStyle(color: kColorScheme.primary, height: 2),
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           filled: true,
@@ -270,7 +273,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       TextFormField(
                         obscureText: !_showConfirmPassword,
-                        style: TextStyle(color: kColorScheme.primary),
+                        style:
+                            TextStyle(color: kColorScheme.primary, height: 2),
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           filled: true,

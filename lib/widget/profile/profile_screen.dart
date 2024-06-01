@@ -176,6 +176,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Widget build(BuildContext context) {
     final _userData = ref.watch(userProvider);
     return Scaffold(
+      backgroundColor: kColorScheme.background,
       appBar: AppBar(
         toolbarHeight: 0,
       ),

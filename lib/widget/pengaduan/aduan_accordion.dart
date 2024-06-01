@@ -64,8 +64,12 @@ class _AduanAccordionState extends ConsumerState<AduanAccordion> {
                     kColorScheme.background,
                   ),
                   padding: MaterialStateProperty.all(EdgeInsets.all(0))),
-              onPressed: () {
-                _deletePengaduan(pengaduan);
+              onPressed: () async {
+                await _deletePengaduan(pengaduan);
+                if (!mounted) {
+                  return;
+                }
+                Navigator.pop(context);
               },
               child: const Text("hapus"),
             ),
@@ -75,14 +79,12 @@ class _AduanAccordionState extends ConsumerState<AduanAccordion> {
     );
   }
 
-  void _deletePengaduan(Pengaduan pengaduan) async {
+  Future<void> _deletePengaduan(Pengaduan pengaduan) async {
     try {
       await FirebaseFirestore.instance
           .collection('pengaduan')
           .doc(pengaduan.id)
           .delete();
-      print(pengaduan.id);
-      mounted ? Navigator.pop(context) : null;
     } on FirebaseException catch (e) {
       if (!mounted) {
         return;
@@ -129,8 +131,11 @@ class _AduanAccordionState extends ConsumerState<AduanAccordion> {
                     kColorScheme.background,
                   ),
                   padding: MaterialStateProperty.all(EdgeInsets.all(0))),
-              onPressed: () {
-                _changeStatus(pengaduan, Status.ditolak, reporterId);
+              onPressed: () async {
+                await _changeStatus(pengaduan, Status.ditolak, reporterId);
+                if (!mounted) {
+                  return;
+                }
                 Navigator.pop(context);
               },
               child: const Text("tolak"),
@@ -141,7 +146,7 @@ class _AduanAccordionState extends ConsumerState<AduanAccordion> {
     );
   }
 
-  void _changeStatus(
+  Future<void> _changeStatus(
       Pengaduan pengaduan, Status status, String reporterId) async {
     try {
       await FirebaseFirestore.instance
@@ -220,7 +225,7 @@ class _AduanAccordionState extends ConsumerState<AduanAccordion> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: Text(pengaduan['title'],
                               overflow: TextOverflow.ellipsis,

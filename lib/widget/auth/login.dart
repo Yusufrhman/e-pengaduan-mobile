@@ -154,9 +154,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     TextFormField(
-                      style: TextStyle(color: kColorScheme.primary),
+                      style: TextStyle(color: kColorScheme.primary, height: 2),
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
+                        alignLabelWithHint: true,
                         hintText: 'Masukkan Email',
                         prefixIcon: const Icon(Icons.email_outlined),
                         border: InputBorder.none,
@@ -192,8 +193,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     TextFormField(
                       obscureText:
-                          !_showPassword, // Mengatur apakah teks tersembunyi atau terlihat
-                      style: TextStyle(color: kColorScheme.primary),
+                          !_showPassword, 
+                      style: TextStyle(color: kColorScheme.primary, height: 2),
                       decoration: InputDecoration(
                           hintText: 'Masukkan Kata Sandi',
                           prefixIcon: const Icon(Icons.lock_outline),
